@@ -59,7 +59,7 @@ class incdbscanner:
             title(r'INCREMENTAL DBSCAN After Deletion', fontsize=18)
             xlabel(r'Dim 1',fontsize=17)
             ylabel(r'Dim 2', fontsize=17)
-            print "Enter point to delete\n"
+            print("Enter point to delete")
             xValue = input('Enter X Value')
             yValue = input('Enter Y Value')
             #deletePoints = list(self.Clusters[2].getPoints())
@@ -112,7 +112,7 @@ class incdbscanner:
     def regionQuery(self,P,eps):
         result = []
         for d in self.dataSet:
-            if (((d[0]-P[0])**2 + (d[1] - P[1])**2)**0.5)<=eps:
+            if (((d[0]-P[0])**2 + (d[1] - P[1])**2)**0.5) <= eps:
                 result.append(d)
         return result
 
@@ -139,8 +139,12 @@ class incdbscanner:
                         self.newCores.append(pt)
         for core in self.newCores:
             corehood = self.regionQuery(core,eps)
+            print("the corehood is:", corehood)
             for elem in corehood:
-                if self.regionQuery(elem,eps) >= Minpts:
+                print("The Minpts are:", Minpts)
+                print(self.regionQuery(elem, eps))
+                if self.regionQuery(elem, eps) >= Minpts:
+
                     if elem not in UpdSeedIns:
                         UpdSeedIns.append(elem)
         if len(UpdSeedIns) < 1:
@@ -194,7 +198,7 @@ class incdbscanner:
                 self.Clusters.append(masterCluster)
     
     def incrementalDelete(self,p,eps,Minpts):
-        print "\nPoint to Delete : "+str(p)
+        print("Point to Delete: ",str(p))
         self.newCores = []
         obsoleteCores = []
         UpdSeedDel = []
@@ -215,7 +219,7 @@ class incdbscanner:
             for point in np:
                 if len(self.regionQuery(point,eps)) >= Minpts and cmp(point,p) != 0:
                     UpdSeedDel.append(point)
-        print"\nUpdSeedDel:"+str(UpdSeedDel)+"\nCurCores:"+str(self.curCores)+"\nNewCores:"+str(self.newCores)
+        print("\nUpdSeedDel:"+str(UpdSeedDel)+"\nCurCores:"+str(self.curCores)+"\nNewCores:"+str(self.newCores))
         if len(UpdSeedDel) <= 0:
             removePts = []
             for pt in Neighbourhood:
@@ -245,7 +249,7 @@ class incdbscanner:
                 if Seed not in np:
                     directlyConnected = False 
             if directlyConnected:
-                print "\nProcedure Reached"
+                print("Procedure Reached")
                 for point in Neighbourhood:
                     isNoise = True
                     neighbour = self.regionQuery(point,eps)
@@ -254,7 +258,7 @@ class incdbscanner:
                             isNoise = False
                             break
                     if isNoise:
-                        print "\nFound Noise:"+str(point)
+                        print("\nFound Noise:", str(point))
                         for clust in self.Clusters:
                             if clust.has(point):
                                 clust.remPoint(point)
