@@ -1,37 +1,56 @@
-from incdbscanner import *
-import csv
-import re
-import sys
-sys.path.append('./')
+class cluster:
+    
+    pList = []
+    X = []
+    Y = []
+    name = ""
+    
+    def __init__(self,name):
+        self.name = name
+        self.pList = []
+        self.X = []
+        self.Y = []
+    
+    def addPoint(self,point):
+        if point not in self.pList:
+            self.pList.append(point)
+            self.X.append(point[0])
+            self.Y.append(point[1])
 
-configPath = 'config'
-dataPath = 'AccidentData.csv'
+    def remPoint(self,point):
+        #print(self.pList)
+        #print(point)
+        ind = self.pList.index(point)
+        del self.X[ind]
+        del self.Y[ind]
+        del self.pList[ind]
 
-def main():
-    [Data,eps,MinPts]= getData()
-    print(len(Data))
-    indbc= incdbscanner()
-    indbc.incdbscan(Data, eps, MinPts)
-def getData():
-    Data = []
-
-    with open(dataPath, 'r') as f:
-        reader = csv.reader(f)
-        for row in reader:
-            Data.append([float(row[0]),float(row[1])])
-            
-    f = open(configPath,'r')
+    def getPoints(self):
+        return self.pList
     
-    [eps,MinPts] = parse(f.readline())
+    def erase(self):
+        self.pList = []
     
-    print(eps,MinPts)
+    def getX(self):
+        return self.X
     
-    return [Data,eps,MinPts]
-
-def parse(line):
-    data = line.split(" ")
-    return [int(data[0]),int(data[1])]
+    def getY(self):
+        return self.Y
     
-            
+    def has(self,point):
+        
+        if point in self.pList:
+            return True
+        
+        return False
+        
+    def printPoints(self):
+        print(self.name+' Points:')
+        print('-----------------')
+        print(self.pList)
+        print(len(self.pList))
+        print('-----------------')
     
-main()    
+        
+        
+        
